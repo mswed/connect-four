@@ -30,5 +30,37 @@
 }
 
 #column-top td:hover {
-  background-color: gold;
+  /*background-color: gold;*/
+  width: 0;
+  height: 0;
+  border-left: 26px solid transparent;
+  border-right: 26px solid transparent;
+
+  border-top: 26px solid gold;
 }
+
+.flex-container {
+  display: flex;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  gap: 16px;
+  width: 500px;
+  margin-bottom: 20px;
+}
+
+.player1 {
+  flex-grow: 1;
+  flex-basis: 160px;
+}
+
+.player2 {
+  flex-grow: 1;
+  flex-basis: 160px;
+}
+
+.new-game {
+  flex-grow: 1;
+  flex-basis: 80px;
+}
+
+

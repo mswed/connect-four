@@ -11,6 +11,7 @@ class Game {
         this.width = width;
         this.height = height;
         this.board = [];
+        this.gameOver = false;
 
         this.currPlayer = 1; // Set the current player (1 or 2)
 
@@ -114,10 +115,12 @@ class Game {
     }
 
     endGame(msg) {
+        this.gameOver = true;
         alert(msg);
     }
 
     handleClick(e) {
+        if (this.gameOver) return;
         // get clicked column from ID of clicked cell
         const column = e.target.id;
         console.log('Column is', column)
@@ -151,4 +154,9 @@ class Game {
 
 }
 
-new Game(4, 4);
+const newGame = document.querySelector('button');
+newGame.addEventListener('click', ()=> {
+    const htmlBoard = document.getElementById('board');
+    htmlBoard.innerHTML = '';
+    new Game()
+})
