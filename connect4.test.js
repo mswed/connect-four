@@ -7,7 +7,6 @@ describe('Tests for the Game class', () => {
     it('should create a class with a few properties ', () => {
         expect(game.width).toEqual(7);
         expect(game.height).toEqual(6);
-        expect(game.currPlayer).toEqual(1);
 
     });
     it('should populate the board using makeBoard', () => {

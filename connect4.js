@@ -6,14 +6,15 @@
  */
 
 class Game {
-    constructor(width = 7, height = 6) {
+    constructor(width = 7, height = 6, ...players) {
         // Set width and height of board (defaults to 7, 6)
         this.width = width;
         this.height = height;
         this.board = [];
         this.gameOver = false;
+        this.players = players;
 
-        this.currPlayer = 1; // Set the current player (1 or 2)
+        this.currPlayer = this.players[0]; // Set the current player (1 or 2)
 
         this.makeBoard();
         this.makeHtmlBoard();
@@ -74,7 +75,7 @@ class Game {
         // Create a game piece and style it to the player
         const piece = document.createElement('div');
         piece.classList.add('piece');
-        piece.classList.add(`p${this.currPlayer}`);
+        piece.style.backgroundColor = this.currPlayer.color;
         piece.style.top = -50 * (row + 2);
 
         // place it in the table
@@ -116,7 +117,10 @@ class Game {
 
     endGame(msg) {
         this.gameOver = true;
-        alert(msg);
+        setTimeout(() => {
+            alert(msg);
+        },0); // setting a fake timeout so the last piece paints before the alert pops
+
     }
 
     handleClick(e) {
@@ -135,12 +139,11 @@ class Game {
 
         // place piece in board and add to HTML table
         this.board[row][column] = this.currPlayer;
-        console.log(this.board)
         this.placeInTable(column, row);
 
         // check for a winner
         if (this.checkForWin.call(this)) {
-            return this.endGame(`Player ${this.currPlayer} won!`);
+            return this.endGame(`${this.currPlayer.betterName()} player  won!`);
         }
 
         // check for tie
@@ -148,15 +151,34 @@ class Game {
             return this.endGame('Tie!');
         }
         // switch players
-        this.currPlayer = this.currPlayer === 1 ? 2 : 1;
+        this.currPlayer = this.currPlayer === this.players[0] ? this.players[1] : this.players[0];
     }
 
 
 }
 
+class Player {
+    constructor(color) {
+        this.color = color
+    }
+    betterName() {
+        return [...this.color].reduce((newName, currentValue, currentIndex) => {
+            console.log('New name', newName);
+            console.log('Current value', currentValue);
+            console.log('Current index', currentIndex);
+            if (currentIndex === 0) {
+                return currentValue.toUpperCase();
+            } else {
+                return newName + currentValue;
+            }
+        }, 0)
+    }
+}
 const newGame = document.querySelector('button');
+const player1Input = document.querySelector('#player1')
+const player2Input = document.querySelector('#player2')
 newGame.addEventListener('click', ()=> {
     const htmlBoard = document.getElementById('board');
     htmlBoard.innerHTML = '';
-    new Game()
+    new Game(7, 6, new Player(player1Input.value.toLowerCase()), new Player(player2Input.value.toLowerCase()))
 })
