@@ -29,7 +29,7 @@ class Game {
 
     makeHtmlBoard() {
         const htmlBoard = document.getElementById('board'); // select the board element
-
+        htmlBoard.style.display = 'inline-block';
         // Make the clickable top row
         const top = document.createElement('tr');
         top.id = 'column-top';
@@ -37,7 +37,7 @@ class Game {
 
         // create a column for each value of width
         for (let x = 0; x < this.width; x++) {
-            const headCell = document.createElement('td');
+            const headCell = document.createElement('th');
             headCell.id = x.toString();
             top.append(headCell);
         }
@@ -76,7 +76,7 @@ class Game {
         const piece = document.createElement('div');
         piece.classList.add('piece');
         piece.style.backgroundColor = this.currPlayer.color;
-        piece.style.top = -50 * (row + 2);
+        // piece.style.top = -50 * (row + 2);
 
         // place it in the table
         const spot = document.getElementById(`${row}-${column}`);
@@ -174,9 +174,15 @@ class Player {
         }, 0)
     }
 }
+
 const newGame = document.querySelector('button');
+const htmlBoard = document.getElementById('board');
 const player1Input = document.querySelector('#player1')
 const player2Input = document.querySelector('#player2')
+
+player1Input.value = 'Red';
+player2Input.value = 'Yellow';
+htmlBoard.style.display = 'none';
 newGame.addEventListener('click', ()=> {
     const htmlBoard = document.getElementById('board');
     htmlBoard.innerHTML = '';
